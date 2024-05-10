@@ -48,7 +48,7 @@ class fullcode:
         self.loop_variable = 0
         self.function_define = 0
         self.function_call = 0
-        self.define_variable = r'^var:*?: = (*?):(.*?):'
+        self.define_variable = r'^var :(.*?): = (.*?):(.*?):'
         self.define_lists = 0
         self.multiplication = 0
         self.addition = 0
