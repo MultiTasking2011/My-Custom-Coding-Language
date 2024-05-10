@@ -27,6 +27,7 @@ class fullcode:
         self.e = False
         self.f = False
         self.display_pattern = r'^display \.(.*?)\.'
+        self.display_var_pattern = r'^display :(.*?):'
         self.draw_forward = 0
         self.draw_left = 0
         self.draw_right = 0
@@ -47,7 +48,7 @@ class fullcode:
         self.loop_variable = 0
         self.function_define = 0
         self.function_call = 0
-        self.define_variable = 0
+        self.define_variable = r'^var:*?: = (*?):(.*?):'
         self.define_lists = 0
         self.multiplication = 0
         self.addition = 0
@@ -86,21 +87,23 @@ class fullcode:
 
     def quiver(self):
         self.importing()
-        # print(self.code)
+        store = list()
+        varstore = list()
         if self.b:
-            print(self.code)    
             for i in self.code:
-                print(self.code)
-                match = re.search(self.display_pattern, i)
-                if match:
-                    print(self.code)
-                    return match.group(1)
-                
-                    
-            else:
-                self.err()
-        else:
-            self.err()
+                # Display Pattern
+                display = re.search(self.display_pattern, i)
+                if display:
+                    store.append(display.group(1))
+                else:
+                    self.err()
+                # Variable
+                variable = re.search(self.define_variable, i)
+                if variable:
+                    print(variable)
+                    # varstore.append(variable.group(1))
+            return store
+        
 
     def rand(self):
         if self.c:
@@ -133,7 +136,8 @@ class fullcode:
             self.err()
     
     def __str__(self) -> str:
-        return("Do not print the class")
+        return "Do not print the class"
 
 code1 = fullcode(x)
-print(code1.quiver())
+for i in code1.quiver():
+    print(i, end=" *_*\n")

@@ -1,3 +1,10 @@
 bring all from quiver
+display .hello.
 display .hi.
-display .howdy.
+display .gud day.
+display .haha.
+display .im bored.
+display .yipee.
+
+var:name: = const:value:
+
