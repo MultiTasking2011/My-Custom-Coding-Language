@@ -4,9 +4,4 @@ var:shop_item: = str:hi:
 var:integer: = int:4:
 var:floattry: = float:3.14:
 
-display |integer|
-display |shop_item|
-display |floattry|
-
-
 list:cart: = str:product1:, str:product2:, str:product3:

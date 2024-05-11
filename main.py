@@ -49,7 +49,7 @@ class fullcode:
         self.function_define = 0
         self.function_call = 0
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
-        self.define_list = r'^list:(.*?): = '
+        self.define_list = r'^list:(.*?): = ([^|]*)'
         self.define_lists = 0
         self.multiplication = 0
         self.addition = 0
@@ -60,6 +60,7 @@ class fullcode:
         self.ifstatement = 0
         self.end = 0
         self.break_turtle = 0
+        self.liststorage = r'^([^|]*):([^|]*):'
 
     def err(self):
         return "err"
@@ -90,6 +91,7 @@ class fullcode:
         self.importing()
         store = list()
         varstore = dict() 
+        liststore = list()
         if self.b:
             for i in self.code:
                 # Display Pattern
@@ -112,7 +114,20 @@ class fullcode:
                 if display_variable:
                     store.append(varstore.get(display_variable.group(1)))
                 #lists
-                lists = []
+                lists = re.search(self.define_list, i)
+                if lists:
+                    liststore.append(lists.group(2).split(', '))
+                    for j in liststore:
+                        listchecker = re.search(self.liststorage, j)
+                        if listchecker:
+                            if listchecker.group(1) == "str":
+                                print("sup")
+                                pass
+                            if listchecker.group(1) == "float":
+                                pass
+                            if listchecker.group(1) == "int":
+                                pass
+                    
             return store
     def rand(self):
         if self.c:
@@ -147,6 +162,6 @@ class fullcode:
     def __str__(self) -> str:
         return "Do not print the class"
 
-code1 = fullcode(x)
-for i in code1.quiver():
+sourcecode = fullcode(x)
+for i in sourcecode.quiver():
     print(i, end=" *_*\n")
