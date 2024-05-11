@@ -27,7 +27,7 @@ class fullcode:
         self.e = False
         self.f = False
         self.display_pattern = r'^display \.(.*?)\.'
-        self.display_var_pattern = r'^display :(.*?):'
+        self.display_var_pattern = r'^display \|([^|]*)\|'
         self.draw_forward = 0
         self.draw_left = 0
         self.draw_right = 0
@@ -48,7 +48,8 @@ class fullcode:
         self.loop_variable = 0
         self.function_define = 0
         self.function_call = 0
-        self.define_variable = r'^var :(.*?): = (.*?):(.*?):'
+        self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
+        self.define_list = r'^list:(.*?): = '
         self.define_lists = 0
         self.multiplication = 0
         self.addition = 0
@@ -88,7 +89,7 @@ class fullcode:
     def quiver(self):
         self.importing()
         store = list()
-        varstore = list()
+        varstore = dict() 
         if self.b:
             for i in self.code:
                 # Display Pattern
@@ -100,11 +101,19 @@ class fullcode:
                 # Variable
                 variable = re.search(self.define_variable, i)
                 if variable:
-                    print(variable)
-                    # varstore.append(variable.group(1))
+                    if variable.group(2) == "str":
+                        varstore[variable.group(1)] = str(variable.group(3))
+                    if variable.group(2) == "float":
+                        varstore[variable.group(1)] = float(variable.group(3))
+                    if variable.group(2) == "int":
+                        varstore[variable.group(1)] = int(variable.group(3))
+                # display variable
+                display_variable = re.search(self.display_var_pattern, i)
+                if display_variable:
+                    store.append(varstore.get(display_variable.group(1)))
+                #lists
+                lists = []
             return store
-        
-
     def rand(self):
         if self.c:
             pass
