@@ -1,7 +1,8 @@
 bring all from quiver
-
-var:shop_item: = str:hi:
-var:integer: = int:4:
-var:floattry: = float:3.14:
-
-list:cart: = str:product1:, str:product2:, str:product3:
+var:test: = int:4:
+var:test2: = float:44.4:
+var:test3: = str:hi:
+display .check.
+display |test|
+display |test2|
+display |test3|

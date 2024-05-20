@@ -60,7 +60,7 @@ class fullcode:
         self.ifstatement = 0
         self.end = 0
         self.break_turtle = 0
-        self.liststorage = r'^([^|]*):([^|]*):'
+        self.liststorage = r'^(.*?):(.*?)'
 
     def err(self):
         return "err"
@@ -117,16 +117,17 @@ class fullcode:
                 lists = re.search(self.define_list, i)
                 if lists:
                     liststore.append(lists.group(2).split(', '))
-                    for j in liststore:
-                        listchecker = re.search(self.liststorage, j)
-                        if listchecker:
-                            if listchecker.group(1) == "str":
-                                print("sup")
-                                pass
-                            if listchecker.group(1) == "float":
-                                pass
-                            if listchecker.group(1) == "int":
-                                pass
+                    for item in liststore:
+                        for a in item:
+                            listchecker = re.search(self.liststorage, a)
+                            if listchecker:
+                                if listchecker.group(1) == "str":
+                                    print("sup")
+                                    pass
+                                if listchecker.group(1) == "float":
+                                    pass
+                                if listchecker.group(1) == "int":
+                                    pass
                     
             return store
     def rand(self):
@@ -164,4 +165,4 @@ class fullcode:
 
 sourcecode = fullcode(x)
 for i in sourcecode.quiver():
-    print(i, end=" *_*\n")
+    print(i, end=" '_'\n")
