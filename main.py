@@ -61,6 +61,7 @@ class fullcode:
         self.end = 0
         self.break_turtle = 0
         self.liststorage = r'^(.*?):([^|]*):'
+        self.listcalling = r'^(.*?)<([^|]*)>'
 
     def err(self):
         return "err"
@@ -134,6 +135,11 @@ class fullcode:
                                     liststorage[str(dictkeyname[0])] = float(listchecker.group(2))
                                 if listchecker.group(1) == "int":
                                     liststorage[str(dictkeyname[0])] = int(listchecker.group(2))
+                
+                #display lists
+                display_lists = re.search(self.display_var_pattern, i)
+                if display_lists:
+                    listcall = re.search(self.listcalling, display_lists)
             return store
     def rand(self):
         if self.c:
