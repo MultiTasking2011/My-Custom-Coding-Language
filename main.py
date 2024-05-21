@@ -140,6 +140,8 @@ class fullcode:
                 display_lists = re.search(self.display_var_pattern, i)
                 if display_lists:
                     listcall = re.search(self.listcalling, display_lists)
+                    if listcall:
+                        print(listcall)
             return store
     def rand(self):
         if self.c:

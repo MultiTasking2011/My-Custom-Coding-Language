@@ -1,5 +1,0 @@
-bring all from quiver
-
-var:test: = float:3.14:
-
-list:test2: = int:5:, str:hello world:, float:3.14:
