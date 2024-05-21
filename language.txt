@@ -1,4 +1,8 @@
 bring all from quiver
-var:test: = str:hello world:
-display |test|
-display .hello!.
+var:name: = str:Irene:
+list:details: = int:989898981010:, str:D9/10 Princeton Towers:
+display .Name:.
+display |name|
+display .Phone No and Address:.
+display *details<1>*
+display *details<2>*

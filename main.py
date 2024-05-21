@@ -28,6 +28,7 @@ class fullcode:
         self.f = False
         self.display_pattern = r'^display \.(.*?)\.'
         self.display_var_pattern = r'^display \|([^|]*)\|'
+        self.display_list_pattern = r'^display \*([^|]*)\*'
         self.draw_forward = 0
         self.draw_left = 0
         self.draw_right = 0
@@ -137,11 +138,15 @@ class fullcode:
                                     liststorage[str(dictkeyname[0])] = int(listchecker.group(2))
                 
                 #display lists
-                # display_lists = re.search(self.display_var_pattern, i)
-                # if display_lists:
-                #     listcall = re.search(self.listcalling, display_lists)
-                #     if listcall:
-                #         print(listcall)
+                display_lists = re.search(self.display_list_pattern, i)
+                if display_lists:
+                    listcallingsyntax = display_lists.group(1)
+                    listcall = re.search(self.listcalling, listcallingsyntax)
+                    listnamecheck = listcall.group(1)
+                    listindexcheck = listcall.group(2)
+                    if listcall:
+                        dictnamecheck = [listnamecheck+'_'+listindexcheck]
+                        store.append(liststorage.get(str(dictnamecheck[0])))
             return store
     def rand(self):
         if self.c:
@@ -178,4 +183,4 @@ class fullcode:
 
 sourcecode = fullcode(x)
 for i in sourcecode.quiver():
-    print(i+"\n")
+    print(i)
