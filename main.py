@@ -92,6 +92,7 @@ class fullcode:
         store = list()
         varstore = dict() 
         liststore = list()
+        liststorage = dict()
         if self.b:
             for i in self.code:
                 # Display Pattern
@@ -124,17 +125,15 @@ class fullcode:
                     for item in liststore:
                         for a in item:
                             listchecker = re.search(self.liststorage, a)
-                            dictkeyname = [listname+'_'+listchecker.group(2)]
-                            # print(dictkeyname)
+                            itempos = int(item.index(a)+1)
+                            dictkeyname = [listname+'_'+str(itempos)]
                             if listchecker:
                                 if listchecker.group(1) == "str":
-                                    print("sup")
-                                    pass
+                                    liststorage[str(dictkeyname[0])] = str(listchecker.group(2))
                                 if listchecker.group(1) == "float":
-                                    pass
+                                    liststorage[str(dictkeyname[0])] = float(listchecker.group(2))
                                 if listchecker.group(1) == "int":
-                                    pass
-                    
+                                    liststorage[str(dictkeyname[0])] = int(listchecker.group(2))
             return store
     def rand(self):
         if self.c:
@@ -171,4 +170,4 @@ class fullcode:
 
 sourcecode = fullcode(x)
 for i in sourcecode.quiver():
-    print(i, end=" '_'\n")
+    print(i+"\n")
