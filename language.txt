@@ -1,8 +1,5 @@
 bring all from quiver
-var:test: = int:4:
-var:test2: = float:44.4:
-var:test3: = str:hi:
-display .check.
-display |test|
-display |test2|
-display |test3|
+
+var:test: = float:3.14:
+
+list:test2: = int:5:, str:hello world:, float:3.14:

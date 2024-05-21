@@ -60,7 +60,7 @@ class fullcode:
         self.ifstatement = 0
         self.end = 0
         self.break_turtle = 0
-        self.liststorage = r'^(.*?):(.*?)'
+        self.liststorage = r'^(.*?):([^|]*):'
 
     def err(self):
         return "err"
@@ -100,6 +100,7 @@ class fullcode:
                     store.append(display.group(1))
                 else:
                     self.err()
+
                 # Variable
                 variable = re.search(self.define_variable, i)
                 if variable:
@@ -109,17 +110,22 @@ class fullcode:
                         varstore[variable.group(1)] = float(variable.group(3))
                     if variable.group(2) == "int":
                         varstore[variable.group(1)] = int(variable.group(3))
+
                 # display variable
                 display_variable = re.search(self.display_var_pattern, i)
                 if display_variable:
                     store.append(varstore.get(display_variable.group(1)))
+
                 #lists
                 lists = re.search(self.define_list, i)
                 if lists:
                     liststore.append(lists.group(2).split(', '))
+                    listname = lists.group(1)
                     for item in liststore:
                         for a in item:
                             listchecker = re.search(self.liststorage, a)
+                            dictkeyname = [listname+'_'+listchecker.group(2)]
+                            # print(dictkeyname)
                             if listchecker:
                                 if listchecker.group(1) == "str":
                                     print("sup")
