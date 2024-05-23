@@ -47,11 +47,10 @@ class fullcode:
         self.loop_count = 0
         self.loop_infinite = 0
         self.loop_variable = 0
-        self.function_define = 0
-        self.function_call = 0
+        self.function_define = r'^function:([^|]*):\|([^|]*)\| ->'
+        self.function_call = r'^call:([^|]*)):\|([^|]*)\|'
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
         self.define_list = r'^list:(.*?): = ([^|]*)'
-        self.define_lists = 0
         self.multiplication = 0
         self.addition = 0
         self.subtraction = 0
@@ -59,7 +58,7 @@ class fullcode:
         self.exponentiation = 0
         self.string_conversion = 0
         self.ifstatement = 0
-        self.end = 0
+        self.end = ':break:'
         self.break_turtle = 0
         self.liststorage = r'^(.*?):([^|]*):'
         self.listcalling = r'^(.*?)<([^|]*)>'
@@ -95,6 +94,7 @@ class fullcode:
         varstore = dict() 
         liststore = list()
         liststorage = dict()
+        parameterstore = dict()
         if self.b:
             for i in self.code:
                 # Display Pattern
@@ -147,6 +147,14 @@ class fullcode:
                     if listcall:
                         dictnamecheck = [listnamecheck+'_'+listindexcheck]
                         store.append(liststorage.get(str(dictnamecheck[0])))
+                
+                #functions
+                functiontest = re.search(self.function_define, i)
+                if functiontest:
+                    print(self.code)
+                    print(i)
+                    # funccode = self.code[self.code.index('i')]
+                    # print(funccode)
             return store
     def rand(self):
         if self.c:
