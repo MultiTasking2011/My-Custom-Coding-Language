@@ -47,10 +47,12 @@ class fullcode:
         self.loop_count = 0
         self.loop_infinite = 0
         self.loop_variable = 0
-        self.function_define = r'^function:([^|]*):\|([^|]*)\| ->'
+        self.function_define = r'^function:([^|]*):\*([^|]*)\* ->'
         self.function_call = r'^call:([^|]*)):\|([^|]*)\|'
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
         self.define_list = r'^list:(.*?): = ([^|]*)'
+        self.list_append = r'^([^|]*)\|add\|\.(.*?)\.'
+        self.list_remove = 0
         self.multiplication = 0
         self.addition = 0
         self.subtraction = 0
@@ -123,6 +125,7 @@ class fullcode:
                 lists = re.search(self.define_list, i)
                 if lists:
                     liststore.append(lists.group(2).split(', '))
+                    print(liststore)
                     listname = lists.group(1)
                     for item in liststore:
                         for a in item:
@@ -135,8 +138,8 @@ class fullcode:
                                 if listchecker.group(1) == "float":
                                     liststorage[str(dictkeyname[0])] = float(listchecker.group(2))
                                 if listchecker.group(1) == "int":
-                                    liststorage[str(dictkeyname[0])] = int(listchecker.group(2))
-                
+                                    liststorage[str(dictkeyname[0])] = int(listchecker.group(2)) 
+
                 #display lists
                 display_lists = re.search(self.display_list_pattern, i)
                 if display_lists:
@@ -151,8 +154,9 @@ class fullcode:
                 #functions
                 functiontest = re.search(self.function_define, i)
                 if functiontest:
-                    print(self.code)
-                    print(i)
+                    # print(self.code)
+                    # print(i)
+                    pass
                     # funccode = self.code[self.code.index('i')]
                     # print(funccode)
             return store
