@@ -2,8 +2,3 @@ bring all from quiver
 list:test: = str:hi:, int:71:, float:3.14:
 list:test2: = str:hi:, int:71:, float:3.14:
 display *test<3>*
-
-{
-    name1:[:a:,:b:],
-    name2:[]
-}
