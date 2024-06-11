@@ -1,4 +1,7 @@
 bring all from quiver
-list:test: = str:hi:, int:71:, float:3.14:
-list:test2: = str:hi:, int:71:, float:3.14:
-display *test<3>*
+
+function:hi:*var1, var2* ~>
+->ho
+->in
+->y
+:break:

@@ -47,7 +47,7 @@ class fullcode:
         self.loop_count = 0
         self.loop_infinite = 0
         self.loop_variable = 0
-        self.function_define = r'^function:([^|]*):\*([^|]*)\* ->'
+        self.function_define = r'^function:([^|]*):\*([^|]*)\* \~\>'
         self.function_call = r'^call:([^|]*)):\|([^|]*)\|'
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
         self.define_list = r'^list:(.*?): = ([^|]*)'
@@ -60,7 +60,7 @@ class fullcode:
         self.exponentiation = 0
         self.string_conversion = 0
         self.ifstatement = 0
-        self.end = ':break:'
+        self.ender = ':break:'
         self.break_turtle = 0
         self.liststorage = r'^(.*?):([^|]*):'
         self.listcalling = r'^(.*?)<([^|]*)>'
@@ -97,6 +97,8 @@ class fullcode:
         liststore = list()
         liststorage = dict()
         parameterstore = dict()
+        funccodestore = dict()
+
         if self.b:
             for i in self.code:
                 # Display Pattern
@@ -154,11 +156,22 @@ class fullcode:
                 #functions
                 functiontest = re.search(self.function_define, i)
                 if functiontest:
-                    # print(self.code)
-                    # print(i)
-                    pass
-                    # funccode = self.code[self.code.index('i')]
-                    # print(funccode)
+                    if ',' in functiontest.group(2):
+                        parameterstore[functiontest.group(1)] = list()
+                        parameterstore[functiontest.group(1)].append(functiontest.group(2).split(', '))
+                        for z in [j for j in parameterstore[functiontest.group(1)]]:
+                            for a in z:
+                                pass
+                    
+                
+                    indexoffunction = self.code.index(f"function:{functiontest.group(1)}:*{functiontest.group(2)}* ~>")
+                    funccodestore[functiontest.group(1)] = list()
+                    funccodestore[functiontest.group(1)] = self.code[indexoffunction+1:self.code.index(self.ender)]
+                    for codes in funccodestore[functiontest.group(1)]:
+                        pass
+
+                    print(funccodestore)
+                    print(parameterstore)
             return store
     def rand(self):
         if self.c:

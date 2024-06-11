@@ -24,18 +24,7 @@ def read_file(filename):
     return req_list
     
 x = read_file("language.txt")
-
-# for i in x:
-#     if 'display' in i:
-#          print("Display present")
-#     else:
-#         print(i)
-    
-
-
-# print(lineno)
 print(x)
-
 
 z = False
 for code in x:
