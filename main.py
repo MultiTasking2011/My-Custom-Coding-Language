@@ -48,7 +48,8 @@ class fullcode:
         self.loop_infinite = 0
         self.loop_variable = 0
         self.function_define = r'^function:([^|]*):\*([^|]*)\* \~\>'
-        self.function_call = r'[run:]+[A-Za-z0-9]+:+\*[A-Za-z0-9]*' #:asda: *asda252@*
+        # self.function_call = r'[run:]+[A-Za-z0-9]+:+\*[A-Za-z0-9]*' #:asda: *asda252@*
+        self.function_call = r'[run]\:(.*?)\:\*(.*?)\*'
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
         self.define_list = r'^list:(.*?): = ([^|]*)'
         self.list_append = r'^([^|]*)\|add\|\.(.*?)\.'
@@ -171,8 +172,7 @@ class fullcode:
                     indexoffunction = self.code.index(f"function:{functiontest.group(1)}:*{functiontest.group(2)}* ~>")
                     funccodestore[functiontest.group(1)] = list()
                     funccodestore[functiontest.group(1)] = self.code[indexoffunction+1:self.code.index(self.ender)]
-                    if functioncallcheck:
-                        print("it worked")
+                    if functioncallcheck and functioncallcheck.group(1) == functiontest.group(1):
                         for codes in funccodestore[functiontest.group(1)]:
                             codes = codes.replace("-> ", "")
                             funcdisplay = re.search(self.display_pattern, codes)
