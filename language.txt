@@ -1,7 +1,9 @@
 bring all from quiver
 
 function:hi:*var1, var2* ~>
-->ho
-->in
-->y
+-> display .hi.
+-> var:test: = str:hello:
+-> display |test|
 :break:
+
+run:hi:

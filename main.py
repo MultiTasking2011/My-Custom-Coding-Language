@@ -48,7 +48,7 @@ class fullcode:
         self.loop_infinite = 0
         self.loop_variable = 0
         self.function_define = r'^function:([^|]*):\*([^|]*)\* \~\>'
-        self.function_call = r'^call:([^|]*)):\|([^|]*)\|'
+        self.function_call = r'^run:.*$' #:asda: *asda252@*
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
         self.define_list = r'^list:(.*?): = ([^|]*)'
         self.list_append = r'^([^|]*)\|add\|\.(.*?)\.'
@@ -131,7 +131,6 @@ class fullcode:
                 lists = re.search(self.define_list, i)
                 if lists:
                     liststore.append(lists.group(2).split(', '))
-                    print(liststore)
                     listname = lists.group(1)
                     for item in liststore:
                         for a in item:
@@ -159,6 +158,7 @@ class fullcode:
                 
                 #functions
                 functiontest = re.search(self.function_define, i)
+                functioncallcheck = re.search(self.function_call, i)
                 if functiontest:
                     if ',' in functiontest.group(2):
                         parameterstore[functiontest.group(1)] = list()
@@ -171,63 +171,61 @@ class fullcode:
                     indexoffunction = self.code.index(f"function:{functiontest.group(1)}:*{functiontest.group(2)}* ~>")
                     funccodestore[functiontest.group(1)] = list()
                     funccodestore[functiontest.group(1)] = self.code[indexoffunction+1:self.code.index(self.ender)]
-                    for codes in funccodestore[functiontest.group(1)]:
-                        codes = codes.replace("-> ", "")
-                        funcdisplay = re.search(self.display_pattern, codes)
-                        if funcdisplay:
-                            funcdisplaystore.append(display.group(1))
-                        else:
-                            self.err()
+                    if functioncallcheck:
+                        print("it worked")
+                        for codes in funccodestore[functiontest.group(1)]:
+                            codes = codes.replace("-> ", "")
+                            funcdisplay = re.search(self.display_pattern, codes)
+                            if funcdisplay:
+                                funcdisplaystore.append(funcdisplay.group(1))
+                            else:
+                                self.err()
 
-                        # Variable
-                        variablefunc = re.search(self.define_variable, codes)
-                        if variablefunc:
-                            if variablefunc.group(2) == "str":
-                                funcvarstore[variablefunc.group(1)] = str(variablefunc.group(3))
-                            if variablefunc.group(2) == "float":
-                                funcvarstore[variablefunc.group(1)] = float(variablefunc.group(3))
-                            if variablefunc.group(2) == "int":
-                                funcvarstore[variablefunc.group(1)] = int(variablefunc.group(3))
+                            # Variable
+                            variablefunc = re.search(self.define_variable, codes)
+                            if variablefunc:
+                                if variablefunc.group(2) == "str":
+                                    funcvarstore[variablefunc.group(1)] = str(variablefunc.group(3))
+                                if variablefunc.group(2) == "float":
+                                    funcvarstore[variablefunc.group(1)] = float(variablefunc.group(3))
+                                if variablefunc.group(2) == "int":
+                                    funcvarstore[variablefunc.group(1)] = int(variablefunc.group(3))
 
-                        # display variable
-                        display_variable_func = re.search(self.display_var_pattern, codes)
-                        if display_variable_func:
-                            funcdisplaystore.append(funcvarstore.get(display_variable_func.group(1)))
+                            # display variable
+                            display_variable_func = re.search(self.display_var_pattern, codes)
+                            if display_variable_func:
+                                funcdisplaystore.append(funcvarstore.get(display_variable_func.group(1)))
 
-                        #lists
-                        listsfunc = re.search(self.define_list, codes)
-                        if listsfunc:
-                            funcliststore.append(listsfunc.group(2).split(', '))
-                            print(funcliststore)
-                            funclistname = listsfunc.group(1)
-                            for everyitem in funcliststore:
-                                for afunc in everyitem:
-                                    funclistchecker = re.search(self.liststorage, afunc)
-                                    itemposition = int(everyitem.index(afunc)+1)
-                                    funcdictkeyname = [funclistname+'_'+str(itemposition)]
-                                    if funclistchecker:
-                                        if funclistchecker.group(1) == "str":
-                                            funcliststorage[str(funcdictkeyname[0])] = str(funclistchecker.group(2))
-                                        if listchecker.group(1) == "float":
-                                            funcliststorage[str(funcdictkeyname[0])] = float(funclistchecker.group(2))
-                                        if listchecker.group(1) == "int":
-                                            funcliststorage[str(funcdictkeyname[0])] = int(funclistchecker.group(2)) 
+                            #lists
+                            listsfunc = re.search(self.define_list, codes)
+                            if listsfunc:
+                                funcliststore.append(listsfunc.group(2).split(', '))
+                                funclistname = listsfunc.group(1)
+                                for everyitem in funcliststore:
+                                    for afunc in everyitem:
+                                        funclistchecker = re.search(self.liststorage, afunc)
+                                        itemposition = int(everyitem.index(afunc)+1)
+                                        funcdictkeyname = [funclistname+'_'+str(itemposition)]
+                                        if funclistchecker:
+                                            if funclistchecker.group(1) == "str":
+                                                funcliststorage[str(funcdictkeyname[0])] = str(funclistchecker.group(2))
+                                            if listchecker.group(1) == "float":
+                                                funcliststorage[str(funcdictkeyname[0])] = float(funclistchecker.group(2))
+                                            if listchecker.group(1) == "int":
+                                                funcliststorage[str(funcdictkeyname[0])] = int(funclistchecker.group(2)) 
 
-                        #display lists
-                        display_lists_func = re.search(self.display_list_pattern, codes)
-                        if display_lists_func:
-                            funclistcallingsyntax = display_lists_func.group(1)
-                            funclistcall = re.search(self.listcalling, funclistcallingsyntax)
-                            funclistnamecheck = funclistcall.group(1)
-                            funclistindexcheck = funclistcall.group(2)
-                            if funclistcall:
-                                funcdictnamecheck = [funclistnamecheck+'_'+funclistindexcheck]
-                                funcdisplaystore.append(funcliststorage.get(str(funcdictnamecheck[0])))
+                            #display lists
+                            display_lists_func = re.search(self.display_list_pattern, codes)
+                            if display_lists_func:
+                                funclistcallingsyntax = display_lists_func.group(1)
+                                funclistcall = re.search(self.listcalling, funclistcallingsyntax)
+                                funclistnamecheck = funclistcall.group(1)
+                                funclistindexcheck = funclistcall.group(2)
+                                if funclistcall:
+                                    funcdictnamecheck = [funclistnamecheck+'_'+funclistindexcheck]
+                                    funcdisplaystore.append(funcliststorage.get(str(funcdictnamecheck[0])))
                         
-
-                    print(funccodestore)
-                    print(parameterstore)
-            return store
+            return store, funcdisplaystore
     def rand(self):
         if self.c:
             pass
@@ -258,9 +256,16 @@ class fullcode:
         else:
             self.err()
     
+    def hehe(self):
+        if self.b:
+            pass
+        else:
+            self.err()
+    
     def __str__(self) -> str:
         return "Do not print the class"
 
 sourcecode = fullcode(x)
 for i in sourcecode.quiver():
-    print(i)
+    for j in i:
+        print(j)
