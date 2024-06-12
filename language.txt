@@ -6,4 +6,5 @@ function:hi:*var1, var2* ~>
 -> display |test|
 :break:
 
-run:hi:
+run:hi:*as*
+
