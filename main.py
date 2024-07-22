@@ -48,7 +48,6 @@ class fullcode:
         self.loop_infinite = 0
         self.loop_variable = 0
         self.function_define = r'^function:([^|]*):\*([^|]*)\* \~\>'
-        # self.function_call = r'[run:]+[A-Za-z0-9]+:+\*[A-Za-z0-9]*' #:asda: *asda252@*
         self.function_call = r'[run]\:(.*?)\:\*(.*?)\*'
         self.define_variable = r'^var:(.*?): = (.*?):(.*?):'
         self.define_list = r'^list:(.*?): = ([^|]*)'
