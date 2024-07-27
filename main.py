@@ -223,8 +223,16 @@ class fullcode:
                                 if funclistcall:
                                     funcdictnamecheck = [funclistnamecheck+'_'+funclistindexcheck]
                                     funcdisplaystore.append(funcliststorage.get(str(funcdictnamecheck[0])))
-                        
-            return store, funcdisplaystore
+                
+
+
+
+            if functioncallcheck:
+                return store, funcdisplaystore
+            else:
+                return store
+
+
     def rand(self):
         if self.c:
             pass
